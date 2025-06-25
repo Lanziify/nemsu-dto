@@ -2,7 +2,7 @@ import { app } from '@/lib/firebaseClient'
 import { axiosErrorHandler } from '@/lib/utils'
 import { getAuth, signInWithEmailAndPassword } from '@firebase/auth'
 import axios from 'axios'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export interface UserLoginField {
     email: string,
@@ -12,11 +12,13 @@ export interface UserLoginField {
 export const useAuth = () => {
     const auth = getAuth(app)
     const router = useRouter()
-    const searchParams = useSearchParams()
-
+    
     const loginUser = async ({ email, password }: UserLoginField) => {
         try {
-            const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
+            const callbackUrl = document.cookie
+                .split('; ')
+                .find(r => r.startsWith('callbackUrl='))
+                ?.split('=')[1] || '/dashboard'
 
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             const token = await userCredential.user.getIdToken(true)
@@ -25,11 +27,11 @@ export const useAuth = () => {
                 token
             })
 
-            if(!result) {
+            if (!result) {
                 throw new Error('Error while trying to login your account')
             }
 
-            router.push(callbackUrl)
+            router.push(decodeURIComponent(callbackUrl))
         } catch (error) {
             axiosErrorHandler(error)
         }
