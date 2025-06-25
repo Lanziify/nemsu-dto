@@ -1,0 +1,23 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      let hasAdminClaim = request.auth != null && request.auth.token.role == 'admin';
+      let userDoc = get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+      let hasAdminRole = userDoc != null && userDoc.role == 'admin';
+      return hasAdminClaim || hasAdminRole;
+    }
+    
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin() || 
+        (request.resource.data.role == 'admin' && 
+         request.resource.data.uid == request.auth.uid);
+    }
+    
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
