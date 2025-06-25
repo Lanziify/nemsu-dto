@@ -1,36 +1,10 @@
 import { addDoc } from "firebase/firestore";
 import { getAuth } from "firebase-admin/auth";
-import { DtoRepair, DtoUser, DtoUserRole } from "@/types/firebase";
+import { DtoRepair, DtoUser } from "@/types/firebase";
 import { faker } from "@faker-js/faker";
 import { adminDb } from "./firebaseAdmin";
 import { DtoFirestoreCollection, getCollection } from "./firestoreReference";
-
-export async function seedDefaultAdmin() {
-	const email = process.env.DEFAULT_ADMIN_EMAIL!;
-	const password = process.env.DEFAULT_ADMIN_PASSWORD!;
-
-	const admin = await getAuth().createUser({
-		email,
-		password,
-		displayName: "admin",
-	});
-
-	await getAuth().setCustomUserClaims(admin.uid, { admin: true });
-
-	const userCollectionRef = getCollection(DtoFirestoreCollection.USERS);
-
-	const adminData: DtoUser = {
-		uid: admin.uid,
-		email: admin.email as string,
-		displayName: admin.displayName as string,
-		role: DtoUserRole.Admin,
-		createdAt: new Date(),
-	};
-
-	await addDoc(userCollectionRef, adminData);
-
-	console.log(`Default admin created: ${email}`);
-}
+import { cookies } from 'next/headers';
 
 export function seedFakeUser() {
 	return {};
@@ -91,4 +65,26 @@ async function deleteQueryBatch(
 	process.nextTick(() => {
 		deleteQueryBatch(query, resolve);
 	});
+}
+
+export async function getCurrentUser(): Promise<DtoUser | null> {
+	const auth = getAuth()
+	const session = (await cookies()).get('session')?.value
+
+	if (!session) return null
+
+	try {
+		const decoded = await auth.verifySessionCookie(session, true)
+
+		const userData: DtoUser = {
+			uid: decoded.uid,
+			email: decoded.email!,
+			displayName: decoded.displayName,
+			role: decoded.role
+		}
+
+		return userData
+	} catch {
+		return null
+	}
 }

@@ -7,6 +7,7 @@ export async function POST(req: Request) {
     const auth = getAuth()
 
     try {
+        const cookie = await cookies()
         const decoded = await auth.verifyIdToken(token)
 
         if (!decoded) {
@@ -16,8 +17,6 @@ export async function POST(req: Request) {
         const sessionCookie = await auth.createSessionCookie(token, {
             expiresIn: 60 * 60 * 24 * 7 * 1000
         })
-
-        const cookie = await cookies()
 
         cookie.set('session', sessionCookie, {
             httpOnly: true,
