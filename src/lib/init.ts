@@ -1,10 +1,11 @@
-import { addDoc } from "firebase/firestore";
+import { addDoc, getDoc, doc } from "firebase/firestore";
 import { getAuth } from "firebase-admin/auth";
 import { DtoRepair, DtoUser } from "@/types/firebase";
 import { faker } from "@faker-js/faker";
+import { db } from "./firebaseClient";
 import { adminDb } from "./firebaseAdmin";
 import { DtoFirestoreCollection, getCollection } from "./firestoreReference";
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
 export function seedFakeUser() {
 	return {};
@@ -68,23 +69,19 @@ async function deleteQueryBatch(
 }
 
 export async function getCurrentUser(): Promise<DtoUser | null> {
-	const auth = getAuth()
-	const session = (await cookies()).get('session')?.value
+	const auth = getAuth();
+	const session = (await cookies()).get("session")?.value;
 
-	if (!session) return null
+	if (!session) return null;
 
 	try {
-		const decoded = await auth.verifySessionCookie(session, true)
+		const decoded = await auth.verifySessionCookie(session, true);
+		const profileDoc = await getDoc(
+			doc(db, DtoFirestoreCollection.USERS, decoded.uid)
+		);
 
-		const userData: DtoUser = {
-			uid: decoded.uid,
-			email: decoded.email!,
-			displayName: decoded.displayName,
-			role: decoded.role
-		}
-
-		return userData
+		return profileDoc.data() as DtoUser;
 	} catch {
-		return null
+		return null;
 	}
 }

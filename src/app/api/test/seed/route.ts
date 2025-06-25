@@ -1,45 +1,52 @@
-import { DtoFirestoreCollection } from '@/lib/firestoreReference';
-import { DtoRequestStatus, DtoUserRole } from '@/types/firebase'
-import { getFirestore } from 'firebase-admin/firestore'
-import { NextResponse } from 'next/server'
+import { DtoFirestoreCollection } from "@/lib/firestoreReference";
+import { DtoRequestStatus, DtoUserRole } from "@/types/firebase";
+import { getFirestore } from "firebase-admin/firestore";
+import { NextResponse } from "next/server";
 
-export function POST() {
-    const position = [
-        "Instructor I",
-        "Instructor II",
-        "Instructor II",
-        "Assistant Professor I",
-        "Assistant Professor II",
-        "Assistant Professor III",
-        "Assistant Professor IV",
-        "Associate Professor I",
-        "Associate Professor II",
-        "Associate Professor III",
-        "Associate Professor IV",
-        "Professor I",
-        "Professor II",
-        "Professor III",
-        "Professor IV",
-        "Professor V",
-        "Professor VI",
-    ] as const
+export function POST(req: Request) {
+	if (req.headers.get("secret") !== process.env.SEED_SECRET_KEY) {
+		return NextResponse.json(
+			{ message: "Cannot access this resource with unauthorized credential." },
+			{ status: 401 }
+		);
+	}
 
-    const DtoPositions = position.reduce((acc, key) => {
-        acc[key] = key
-        return acc
-    }, {} as Record<typeof position[number], string>)
+	const position = [
+		"Instructor I",
+		"Instructor II",
+		"Instructor II",
+		"Assistant Professor I",
+		"Assistant Professor II",
+		"Assistant Professor III",
+		"Assistant Professor IV",
+		"Associate Professor I",
+		"Associate Professor II",
+		"Associate Professor III",
+		"Associate Professor IV",
+		"Professor I",
+		"Professor II",
+		"Professor III",
+		"Professor IV",
+		"Professor V",
+		"Professor VI",
+	] as const;
 
-    const seedMap = {
-        [DtoFirestoreCollection.STATUS]: DtoRequestStatus,
-        [DtoFirestoreCollection.ROLES]: DtoUserRole,
-        [DtoFirestoreCollection.POSITIONS]: DtoPositions
-    }
+	const DtoPositions = position.reduce((acc, key) => {
+		acc[key] = key;
+		return acc;
+	}, {} as Record<(typeof position)[number], string>);
 
-    Object.entries(seedMap).forEach(async ([collection, item]) => {
-        for (const value in item) {
-            await getFirestore().collection(collection).doc().set({ name: value })
-        }
-    })
+	const seedMap = {
+		[DtoFirestoreCollection.STATUS]: DtoRequestStatus,
+		[DtoFirestoreCollection.ROLES]: DtoUserRole,
+		[DtoFirestoreCollection.POSITIONS]: DtoPositions,
+	};
 
-    return NextResponse.json({ success: true })
+	Object.entries(seedMap).forEach(async ([collection, item]) => {
+		for (const value in item) {
+			await getFirestore().collection(collection).doc().set({ name: value });
+		}
+	});
+
+	return NextResponse.json({ success: true });
 }
