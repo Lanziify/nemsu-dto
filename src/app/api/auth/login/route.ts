@@ -1,20 +1,19 @@
+import { adminAuth } from '@/lib/firebaseAdmin';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { getAuth } from 'firebase-admin/auth';
 
 export async function POST(req: Request) {
     const { token } = await req.json()
-    const auth = getAuth()
 
     try {
         const cookie = await cookies()
-        const decoded = await auth.verifyIdToken(token)
+        const decoded = await adminAuth.verifyIdToken(token)
 
         if (!decoded) {
             throw new Error('Cannot verify id token')
         }
 
-        const sessionCookie = await auth.createSessionCookie(token, {
+        const sessionCookie = await adminAuth.createSessionCookie(token, {
             expiresIn: 60 * 60 * 24 * 7 * 1000
         })
 

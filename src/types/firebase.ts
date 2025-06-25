@@ -1,8 +1,11 @@
 export interface DtoUser {
 	uid: string;
 	email: string;
+	avatar: string;
 	displayName: string;
 	role: DtoUserRole;
+	office: string;
+	position: string;
 	createdAt?: Date | number;
 }
 
@@ -28,18 +31,19 @@ export interface DtoRepairResponse {
 }
 
 export enum DtoUserRole {
+	SuperAdmin = "super-admin",
 	Admin = "admin",
 	Staff = "staff",
 }
 
 export enum RequestType {
-	Repair = "repair",
+	Repair = "Repair",
 }
 
 export enum DtoRequestStatus {
-	Pending = "pending",
-	Confirmed = "confirmed",
-	Rejected = "rejected",
-	Canceled = "canceled",
-	Completed = "completed",
+	Pending = "Pending",
+	Confirmed = "Confirmed",
+	Rejected = "Rejected",
+	Canceled = "Canceled",
+	Completed = "Completed",
 }
