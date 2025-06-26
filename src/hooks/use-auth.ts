@@ -1,13 +1,9 @@
 import { app } from '@/lib/firebaseClient'
 import { axiosErrorHandler } from '@/lib/utils'
+import { UserLoginField } from '@/types/user'
 import { getAuth, signInWithEmailAndPassword } from '@firebase/auth'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-
-export interface UserLoginField {
-    email: string,
-    password: string
-}
 
 export const useAuth = () => {
     const auth = getAuth(app)
