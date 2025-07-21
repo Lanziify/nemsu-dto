@@ -5,10 +5,10 @@ import { DtoRepair, DtoUser, DtoUserRole } from "@/types/firebase";
 export enum DtoFirestoreCollection {
   USERS = 'users',
   ROLES = 'roles',
-  OFFICE = 'office',
-  STATUS = 'status',
+  OFFICES = 'offices',
   POSITIONS = 'positions',
   TRANSACTIONS = 'transactions',
+  BRANCHES = "branches"
 }
 
 export type CollectionMap = {

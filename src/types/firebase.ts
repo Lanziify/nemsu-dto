@@ -6,7 +6,7 @@ export interface DtoUser {
 	role: DtoUserRole;
 	office: string;
 	position: string;
-	createdAt?: Date | number;
+	createdAt?: FirebaseFirestore.Timestamp;
 }
 
 export interface FirestoreRepair extends DtoRepair {
