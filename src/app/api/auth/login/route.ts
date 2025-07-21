@@ -26,7 +26,6 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ success: true })
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error: 'Something wen\'t wrong' }, { status: 401 })
+        return NextResponse.json({ message: 'Something wen\'t wrong', error: error }, { status: 401 })
     }
 }
