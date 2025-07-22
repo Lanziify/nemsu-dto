@@ -24,11 +24,11 @@ const SideNavigationBar = () => {
             <Accordion
               key={index}
               type="multiple"
-              className="hover:bg-primary/5 rounded-md px-3 text-sm"
+              className="hover:bg-primary/5 rounded-md text-sm"
             >
               <AccordionItem value="item-1" className="border-none">
                 <AccordionTrigger>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 ">
                     {sidebarItem.icon}
                     {sidebarItem.name}
                   </div>
@@ -51,7 +51,7 @@ const SideNavigationBar = () => {
 const MenuItem: React.FC<SideNavigationMenuItem> = (props) => {
   const pathname = usePathname();
   const baseStyle =
-    "h-10 px-3 py-2 inline-flex gap-3 items-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/5";
+    "px-3 py-2 inline-flex gap-3 items-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/5";
 
   return (
     <Link
