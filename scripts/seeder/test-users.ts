@@ -2,10 +2,9 @@ import { DtoFirestoreCollection } from "@/lib/firestoreReference";
 import { DtoUser, DtoUserRole } from "@/types/firebase";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { faker } from "@faker-js/faker";
-import { offices, positions } from "../contstants";
+import { offices, positions, branches } from "@/lib/constants";
 
 async function seedTestUsers(n = 1) {
-
   for (let i = 0; i < n; i++) {
     const user: DtoUser = {
       uid: faker.string.alphanumeric({ length: 28, casing: "mixed" }),
@@ -16,6 +15,7 @@ async function seedTestUsers(n = 1) {
       createdAt: Timestamp.now(),
       office: faker.helpers.arrayElement(offices),
       position: faker.helpers.arrayElement(positions),
+      branch: faker.helpers.arrayElement(branches),
     };
 
     await getFirestore()

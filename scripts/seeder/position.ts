@@ -1,6 +1,6 @@
 import { DtoFirestoreCollection } from "@/lib/firestoreReference";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
-import { positions } from "../contstants";
+import { positions } from "@/lib/constants";
 
 async function seedDefaultPositions() {
 	const positionCollectionSize = (

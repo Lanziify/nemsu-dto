@@ -1,16 +1,8 @@
+import { branches } from "@/lib/constants";
 import { DtoFirestoreCollection } from "@/lib/firestoreReference";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 
 async function seedDefaultBranches() {
-	const branches = [
-		"Tandag",
-		"Lianga",
-		"Tagbina",
-		"San Miguel",
-		"Cagwait",
-		"Cantilan",
-	];
-
 	const officeCollectionSize = (
 		await getFirestore().collection(DtoFirestoreCollection.BRANCHES).get()
 	).size;

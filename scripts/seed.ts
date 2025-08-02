@@ -119,11 +119,9 @@ function getSeeders(argv: SeederFlags) {
     ),
   );
 
-  results.forEach((result, i) => {
+  results.forEach((result) => {
     if (result.status === "fulfilled") {
-      console.log(
-        `Seeding ${Object.keys(seederConfig)[i]} completed successfully!`,
-      );
+      console.log(`Seeding completed successfully!`);
     }
     if (result.status === "rejected") {
       console.error(result.reason instanceof Error && result.reason.message);
