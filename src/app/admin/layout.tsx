@@ -1,18 +1,22 @@
-import DtoHeader from "@/components/shared/DtoHeader";
-import SideNavigationBar from "@/components/shared/SideNavigationBar";
+import { AppMainHeader } from "@/components/shared/main-header";
+import { AppMainSidebar } from "@/components/shared/main-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const data = await getData(params.id);
+  // if (!data) notFound(); // Triggers your not-found.tsx
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <DtoHeader />
-      <div className="relative m-auto flex w-full max-w-6xl flex-1 border-x max-sm:w-[93%]">
-        <SideNavigationBar />
-        <div className="w-full min-w-0 p-4">{children}</div>
-      </div>
-    </div>
+    <SidebarProvider>
+      <AppMainSidebar />
+      <SidebarInset>
+        <AppMainHeader />
+        <main>{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

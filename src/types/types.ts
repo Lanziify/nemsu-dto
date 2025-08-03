@@ -1,16 +1,18 @@
-export type SideNavigationMenuItem =
+import { LucideIcon } from "lucide-react";
+
+export type SidebarItem =
   | {
       type: "normal";
       name: string;
       path: string;
-      icon: React.JSX.Element;
+      icon: LucideIcon;
     }
   | {
-      type: "accordion";
+      type: "collapsible";
       name: string;
       path: string;
-      icon: React.JSX.Element;
-      children?: SideNavigationMenuItem[];
+      icon: LucideIcon;
+      children?: SidebarItem[];
     };
 
 export type DropDownMenuItem = {

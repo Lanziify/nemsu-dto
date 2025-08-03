@@ -11,7 +11,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getCurrentUser } from "@/lib/auth";
 import Link from "next/link";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "./logout-button";
 
 type MenuItemType =
   | { type: "item"; label: string; path: string; shortcut?: string }
@@ -42,7 +42,11 @@ export async function ProfileMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-fit w-fit rounded-full p-0">
+        <Button
+          variant="ghost"
+          size="lg"
+          className="h-fit w-fit rounded-full p-0"
+        >
           <Avatar>
             <AvatarFallback>
               {user?.displayName.charAt(0).toUpperCase()}
@@ -85,7 +89,7 @@ export async function ProfileMenu() {
         <DropdownMenuItem disabled>Support</DropdownMenuItem>
         <DropdownMenuItem disabled>API</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <LogoutButton/>
+        <LogoutButton />
       </DropdownMenuContent>
     </DropdownMenu>
   );
