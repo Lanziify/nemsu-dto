@@ -1,5 +1,5 @@
 import React from "react";
-import { ProfileMenu } from "./porfile-menu";
+import { ProfileMenu } from "./profile-menu";
 import { SidebarTrigger } from "../ui/sidebar";
 
 export async function AppMainHeader() {
@@ -10,7 +10,7 @@ export async function AppMainHeader() {
   ];
 
   return (
-    <header className="bg-background/90 supports-[backdrop-filter]:bg-background/90 sticky top-0 right-0 left-0 z-10 w-full backdrop-blur">
+    <header className="bg-background/90 supports-[backdrop-filter]:bg-background/90 sticky top-0 right-0 left-0 w-full backdrop-blur">
       <div className="m-auto flex justify-between p-4">
         <div className="flex items-center gap-4">
           <SidebarTrigger />
