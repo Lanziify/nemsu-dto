@@ -1,10 +1,9 @@
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+// import {
+//   DropdownMenu,
+//   DropdownMenuCheckboxItem,
+//   DropdownMenuContent,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectTrigger,
@@ -33,20 +32,24 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, ListFilter } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 
 type DtoTableType<T> = {
   data: T[];
   columns: ColumnDef<T>[];
+  columnFilters?: ColumnFiltersState;
+  columnVisibility?: VisibilityState;
 };
 
-export const DataTable = <T,>({ data, columns }: DtoTableType<T>) => {
+export const DataTable = <T,>({
+  data,
+  columns,
+  columnFilters,
+  columnVisibility,
+}: DtoTableType<T>) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [filter, setFilter] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
@@ -58,17 +61,15 @@ export const DataTable = <T,>({ data, columns }: DtoTableType<T>) => {
     columns,
     columnResizeMode: "onChange",
     onSortingChange: setSorting,
-    onColumnFiltersChange: setFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onPaginationChange: setPagination,
     state: {
       sorting,
-      columnFilters: filter,
+      columnFilters,
       columnVisibility,
       rowSelection,
       pagination,
@@ -78,7 +79,7 @@ export const DataTable = <T,>({ data, columns }: DtoTableType<T>) => {
   return (
     <div className="w-full">
       {/* Search and Filter */}
-      <div className="mb-8 flex items-center gap-2">
+      {/* <div className="mb-8 flex items-center gap-2">
         <div className="flex items-center gap-2">
           <Input
             className="w-60"
@@ -117,7 +118,7 @@ export const DataTable = <T,>({ data, columns }: DtoTableType<T>) => {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      </div> */}
       {/* Table */}
       <div className="w-full overflow-auto rounded-md border">
         <Table className="table-fixed">
