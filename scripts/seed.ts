@@ -122,9 +122,11 @@ function getSeeders(argv: SeederFlags) {
   results.forEach((result) => {
     if (result.status === "fulfilled") {
       console.log(`Seeding completed successfully!`);
+      process.exit(0)
     }
     if (result.status === "rejected") {
       console.error(result.reason instanceof Error && result.reason.message);
+      process.exit(1);
     }
   });
 })();

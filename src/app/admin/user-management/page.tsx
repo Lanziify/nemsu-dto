@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/shared/data-table";
 import { usersColumns } from "@/data/user-table-columns";
 import { useDbCollection } from "@/hooks/use-firebase-hook";
-import { CollectionMap, getCollection } from "@/lib/firestoreReference";
+import { getCollection } from "@/lib/firestoreReference";
 import { DtoUser, DtoUserRole } from "@/types/firebase";
 import React from "react";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ import Link from "next/link";
 
 export default function Users() {
   const usersRef = React.useMemo(() => getCollection("users"), []);
-  const { data, loading } = useDbCollection<CollectionMap["users"]>(usersRef);
+  const { data, loading } = useDbCollection<DtoUser>(usersRef);
 
   const [columnFilters, setColumnFilter] = React.useState<ColumnFiltersState>(
     [],

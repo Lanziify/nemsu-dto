@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DtoUser } from "@/types/firebase";
+import { DtoUser, Position } from "@/types/firebase";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Timestamp } from "firebase-admin/firestore";
+import { Office } from "@/types/firebase";
 import { ArrowUpDown, Ellipsis } from "lucide-react";
 
 export const usersColumns: ColumnDef<DtoUser>[] = [
@@ -91,7 +92,8 @@ export const usersColumns: ColumnDef<DtoUser>[] = [
     cell: ({ row }) => <div className="truncate">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "position",
+    id: "position",
+    accessorFn: (row) => (row.position as Position).name,
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -107,7 +109,8 @@ export const usersColumns: ColumnDef<DtoUser>[] = [
     ),
   },
   {
-    accessorKey: "office",
+    id: "office",
+    accessorFn: (row) => (row.office as Office).name,
     header: ({ column }) => (
       <Button
         variant="ghost"

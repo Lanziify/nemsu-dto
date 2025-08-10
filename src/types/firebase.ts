@@ -1,15 +1,31 @@
-import { branches } from "@/lib/constants";
-
 export interface DtoUser {
   uid: string;
   email: string;
   avatar: string;
   displayName: string;
-  role: typeof DtoUserRole[keyof typeof DtoUserRole];
-  office: string;
-  position: string;
-  branch: typeof branches[number];
+  role: (typeof DtoUserRole)[keyof typeof DtoUserRole];
+  office: string | Office;
+  position: string | Position;
+  branch: string | Branch;
   createdAt?: FirebaseFirestore.Timestamp;
+}
+
+export interface Office {
+  name: string;
+  createdAt: FirebaseFirestore.Timestamp;
+  updatedAt: FirebaseFirestore.Timestamp;
+}
+
+export interface Position {
+  name: string;
+  createdAt: FirebaseFirestore.Timestamp;
+  updatedAt: FirebaseFirestore.Timestamp;
+}
+
+export interface Branch {
+  name: string;
+  createdAt: FirebaseFirestore.Timestamp;
+  updatedAt: FirebaseFirestore.Timestamp;
 }
 
 export interface FirestoreRepair extends DtoRepair {
@@ -37,7 +53,7 @@ export const DtoUserRole = {
   SuperAdmin: "super-admin",
   Admin: "admin",
   Staff: "staff",
-}
+};
 
 export enum RequestType {
   Repair = "Repair",

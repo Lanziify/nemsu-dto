@@ -35,7 +35,7 @@ export const sidebarItems: SidebarItem[] = [
   },
   {
     name: "User Management",
-    path: "user-management",
+    path: "/admin/user-management",
     icon: Users,
     type: "normal",
   },

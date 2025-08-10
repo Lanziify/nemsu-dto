@@ -1,10 +1,17 @@
 import { DtoFirestoreCollection } from "@/lib/firestoreReference";
 import { DtoUser, DtoUserRole } from "@/types/firebase";
-import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { faker } from "@faker-js/faker";
-import { offices, positions, branches } from "@/lib/constants";
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
 
 async function seedTestUsers(n = 1) {
+  const positionsSnapshots = await getFirestore().collection("positions").get();
+  const officesSnapshots = await getFirestore().collection("offices").get();
+  const branchesSnapshots = await getFirestore().collection("branches").get();
+
+  const positionsDocRefsPaths = positionsSnapshots.docs.map((doc) => doc.ref.path);
+  const officesDocRefsPaths = officesSnapshots.docs.map((doc) => doc.ref.path);
+  const branchesDocRefsPaths = branchesSnapshots.docs.map((doc) => doc.ref.path);
+
   for (let i = 0; i < n; i++) {
     const user: DtoUser = {
       uid: faker.string.alphanumeric({ length: 28, casing: "mixed" }),
@@ -13,9 +20,9 @@ async function seedTestUsers(n = 1) {
       displayName: faker.person.firstName(),
       role: DtoUserRole.Staff,
       createdAt: Timestamp.now(),
-      office: faker.helpers.arrayElement(offices),
-      position: faker.helpers.arrayElement(positions),
-      branch: faker.helpers.arrayElement(branches),
+      office: faker.helpers.arrayElement(officesDocRefsPaths),
+      position: faker.helpers.arrayElement(positionsDocRefsPaths),
+      branch: faker.helpers.arrayElement(branchesDocRefsPaths),
     };
 
     await getFirestore()
