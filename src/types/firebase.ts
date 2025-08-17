@@ -10,6 +10,16 @@ export interface DtoUser {
   createdAt?: FirebaseFirestore.Timestamp;
 }
 
+export interface DefaultProperty<T = string> {
+  name: T;
+  createdAt: FirebaseFirestore.Timestamp;
+  updatedAt: FirebaseFirestore.Timestamp;
+}
+
+export interface DefaultPropertyWithId extends DefaultProperty {
+  refId: string;
+}
+
 export interface Office {
   name: string;
   createdAt: FirebaseFirestore.Timestamp;

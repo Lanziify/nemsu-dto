@@ -6,6 +6,7 @@ import { seedDefaultPositions } from "./seeder/position";
 import { seedDefaultOffices } from "./seeder/office";
 import { seedDefaultBranches } from "./seeder/branches";
 import { seedTestUsers } from "./seeder/test-users";
+import { seedDefaultRoles } from "./seeder/roles";
 
 // [STATUS] | TASK: Description
 // [ ] - Idle
@@ -15,6 +16,10 @@ import { seedTestUsers } from "./seeder/test-users";
 const seederConfig: SeederConfig = {
   admin: {
     cb: seedDefaultAdmin,
+    args: [] as const,
+  },
+  roles: {
+    cb: seedDefaultRoles,
     args: [] as const,
   },
   positions: {
@@ -35,7 +40,13 @@ const seederConfig: SeederConfig = {
   },
 } as const;
 
-type SeederKey = "admin" | "positions" | "offices" | "branches" | "users";
+type SeederKey =
+  | "admin"
+  | "roles"
+  | "positions"
+  | "offices"
+  | "branches"
+  | "users";
 
 type SeederConfig = {
   [K in SeederKey]: SeederConfigItemValue;
@@ -122,7 +133,7 @@ function getSeeders(argv: SeederFlags) {
   results.forEach((result) => {
     if (result.status === "fulfilled") {
       console.log(`Seeding completed successfully!`);
-      process.exit(0)
+      process.exit(0);
     }
     if (result.status === "rejected") {
       console.error(result.reason instanceof Error && result.reason.message);

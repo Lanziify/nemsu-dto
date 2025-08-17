@@ -48,3 +48,9 @@ export const branches = [
   "Cagwait",
   "Cantilan",
 ] as const;
+
+export const roles = [
+  "Super Admin",
+  "Admin",
+  "Staff"
+] as const;
