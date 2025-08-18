@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DtoUser, Position } from "@/types/firebase";
+import { Branch, DtoUser, Position } from "@/types/firebase";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Timestamp } from "firebase-admin/firestore";
@@ -60,7 +60,7 @@ export const usersColumns: ColumnDef<DtoUser>[] = [
     cell: ({ row }) => (
       <div className="truncate">{row.getValue("displayName")}</div>
     ),
-    size: 80,
+    size: 100,
   },
   {
     accessorKey: "uid",
@@ -75,7 +75,6 @@ export const usersColumns: ColumnDef<DtoUser>[] = [
       </Button>
     ),
     cell: ({ row }) => <div className="truncate">{row.getValue("uid")}</div>,
-    size: 80,
   },
   {
     accessorKey: "email",
@@ -90,6 +89,22 @@ export const usersColumns: ColumnDef<DtoUser>[] = [
       </Button>
     ),
     cell: ({ row }) => <div className="truncate">{row.getValue("email")}</div>,
+  },
+  {
+    id: "branch",
+    accessorFn: (row) => (row.branch as Branch).name,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="!p-0 hover:bg-transparent hover:opacity-50"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Branch
+        <ArrowUpDown size={16} />
+      </Button>
+    ),
+    cell: ({ row }) => <div className="truncate">{row.getValue("branch")}</div>,
+    size: 100,
   },
   {
     id: "position",
